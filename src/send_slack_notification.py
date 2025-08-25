@@ -2,8 +2,6 @@ import os, json, mimetypes
 from pathlib import Path
 import requests
 from datetime import datetime
-from zoneinfo import ZoneInfo
-import time
 
 SLACK_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 SLACK_CHANNEL_ID = os.environ["SLACK_CHANNEL_ID"]
@@ -110,7 +108,6 @@ def send_today_timestamp_dirs(base_folder: Path):
     for d in ts_dirs:
         try:
             _pair_and_send_in_dir(d)
-            time.sleep(30)
         except Exception as e:
             # Log and continue with remaining dirs
             print(f"[ERROR] Failed to send dir {d.name}: {e}")
