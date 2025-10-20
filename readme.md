@@ -105,7 +105,7 @@ Make sure your database credentials and environment variables are set appropriat
 
 ## ✅ Requirements
 
-- Python 3.8+
+- Python 3.11+
 - `pandas`, `numpy`, `polars`, `tqdm`
 - PostgreSQL (for database integration)
 
