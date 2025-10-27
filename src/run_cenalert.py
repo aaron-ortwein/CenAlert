@@ -45,6 +45,24 @@ def main():
     
     print(anomalies)
     print(anomalies["impact"].sum())
+
+    # === add quartile column based on impact ===
+    # 0 being the lowest impact and 3 being the highest
+    anomalies = anomalies.sort("impact")
+    n = anomalies.height
+
+    if n == 0:
+        anomalies = anomalies.with_columns(pl.lit(None).alias("quartile"))
+    else:
+        if n < 4:
+            quartiles = list(range(n))  # first always 0
+        else:
+            quartiles = (
+                        anomalies.select(pl.col("impact").rank("ordinal").alias("rank"))["rank"] - 1
+            ) * 4 // n
+            quartiles = quartiles.cast(pl.Int64).to_list()
+
+        anomalies = anomalies.with_columns(pl.Series("quartile", quartiles))
     
     os.makedirs(args.output, exist_ok=True)
 

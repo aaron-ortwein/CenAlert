@@ -60,20 +60,22 @@ def get_multi_timeline(service, logger, dest,fname, start_date_str, end_date_str
     time.sleep(1)
     logger.critical(f"Unable to retrieve multiTimeline file for {country_code} with start date {start_date_str} and end date {end_date_str}")     
 
-def get_multi_timeline_windows(service, logger, dest, start_date_str, window_s_str, end_date_str, country_code, topic=VPN_GT_TOPIC_CODE, window=8, overlap=1):
+def get_multi_timeline_windows(service, logger, dest, start_date_str, window_s_str,
+end_date_str, country_code, topic=VPN_GT_TOPIC_CODE, window=8, overlap=1):
+    start_datetime = datetime.datetime.strptime(start_date_str, '%Y-%m')
     end_datetime = datetime.datetime.strptime(end_date_str, '%Y-%m')
     today = datetime.datetime.strptime(CURRENT_DATE_STR, DATE_FORMAT)
     
     if end_datetime > today:
-        end_datetime = today
-    
+        end_datetime= today
     window_start =  datetime.datetime.strptime(window_s_str, '%Y-%m')
     done = False
     while window_start <= end_datetime: #and window_start <= today
         window_end = window_start + relativedelta(months=(window - 1))
 
         if window_end.year > today.year or (window_end.year == today.year and window_end.month > today.month):
-            window_end = datetime.datetime(year=today.year, month=today.month, day=1)
+            window_end = datetime.datetime(year=today.year, 
+                                           month=today.month, day=1)
 
         if window_end >= end_datetime:
             window_end = end_datetime
@@ -83,10 +85,29 @@ def get_multi_timeline_windows(service, logger, dest, start_date_str, window_s_s
         window_e_str = window_end.strftime(DATE_FORMAT_MONTH)
         fname =  "{0}_multiTimeline.csv".format(window_s_str)
         
-        get_multi_timeline(service, logger, dest, fname, window_s_str, window_e_str, country_code, topic)    
-        get_multi_timeline(service, logger, dest, f"{window_s_str}_coarseMultiTimeline.csv", start_date_str, window_e_str, country_code, topic)
+        
+        get_multi_timeline(service, logger, dest, fname, window_s_str, 
+                           window_e_str, country_code, topic)
+        
+            
+        get_multi_timeline(service, logger, dest, 
+                            f"{window_s_str}_coarseMultiTimeline.csv", start_date_str, window_e_str, 
+                            country_code, topic)
 
         window_start += relativedelta(months=(window - overlap))
 
+
         if done:
+            # delete the last day of data
+            file_path = os.path.join(dest, fname)
+            if os.path.exists(file_path):
+                try:
+                    df = pd.read_csv(file_path)
+                    if len(df) > 0:
+                        df = df.iloc[:-1]
+                        df.to_csv(file_path, index=False)
+                        logger.info(f"Removed last row from final window file: {file_path}")
+                except Exception as e:
+                    logger.warning(f"Failed to clean last row of {file_path}: {e}")
             break
+   

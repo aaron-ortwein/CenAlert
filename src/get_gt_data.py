@@ -78,7 +78,7 @@ def main():
 
     # set up logger
     formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(name)s : %(message)s')
-    file_handler = logging.FileHandler(output_dir + os.sep + "log.log", mode="w")
+    file_handler = logging.FileHandler(os.path.join(os.path.dirname(output_dir), "log.log"),mode="a")
     stream_handler = logging.StreamHandler()
     
     file_handler.setFormatter(formatter)
