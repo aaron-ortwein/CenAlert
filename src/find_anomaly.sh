@@ -10,7 +10,7 @@ touch $DUMMY_EVENTS
 ALGORITHM="chebyshev"
 
 # Path to your Python script
-SCRIPT_PATH="src/run_cenalert.py"
+SCRIPT_PATH="src/run_potentialblockalert.py"
 
 # Top-level where your term subdirectories live
 TERMS_ROOT=$BASE_ROOT

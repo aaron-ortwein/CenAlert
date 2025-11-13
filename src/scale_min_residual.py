@@ -5,7 +5,7 @@ import argparse
 
 # Set up argument parser
 parser = argparse.ArgumentParser(description="Scale pickled residuals using stitched CSV values.")
-parser.add_argument("term", help="Term we are running cenalert on.")
+parser.add_argument("term", help="Term we are running on.")
 parser.add_argument("stitched_base", help="Base dir for stitched time series.")
 parser.add_argument("param", help="Base dir for param files.")
 parser.add_argument("scaled_param", help="Base dir for scaled param files.")

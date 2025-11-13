@@ -1,8 +1,8 @@
-# CenAlert
+# PotentialBlockAlert
 
-This repository contains the implementation of the *CenAlert* deployment.
+This repository contains the implementation of the *PotentialBlockAlert* deployment.
 
-**Note: CenAlert requires a Google Trends API key and Slack token to run.** 
+**Note: PotentialBlockAlert requires a Google Trends API key and Slack token to run.** 
 
 ---
 
@@ -55,9 +55,9 @@ Inside each **topic** directory, data is organized by country:
 
 ---
 
-## Bootstrapping CenAlert
+## Bootstrapping PotentialBlockAlert
 
-Before the daily pipeline can run, *CenAlert* must be bootstrapped with historical data:
+Before the daily pipeline can run, *PotentialBlockAlert* must be bootstrapped with historical data:
 
 ### 1. Download Raw Google Trends Data
 
@@ -77,7 +77,7 @@ This generates the initial stitched files (e.g., `US_stitched.csv`) inside `stit
 
 ---
 
-## Running CenAlert
+## Running PotentialBlockAlert
 
 After bootstrapping, the daily pipeline can be run:
 

@@ -3,8 +3,8 @@ set -Eeuo pipefail
 set -x
 
 # Configuration
-DB_NAME="CenAlert_db"
-DB_USER="CenAlert"
+DB_NAME="PotentialBlockAlert_db"
+DB_USER="PotentialBlockAlert"
 DB_PASSWORD=$(cat db_password.txt)
 SCHEMA_FILE="sql/schema.sql"
 DATA_DIR="data"
